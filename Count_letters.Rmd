@@ -1,0 +1,25 @@
+---
+title: "Last name count"
+output: html_notebook
+---
+
+```{r}
+# Load the tidyverse
+
+library(tidyverse)
+
+```
+
+```{r}
+# load other libraries
+
+library(janitor)
+
+```
+
+```{r}
+
+# Load the data
+
+```
+
