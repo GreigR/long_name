@@ -83,3 +83,10 @@ White
   
 ```
 
+```{r}
+# write frequency table file
+
+write_csv(Freq_count, "Freq_table.csv", col_names = TRUE)
+
+```
+
