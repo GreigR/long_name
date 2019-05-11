@@ -21,5 +21,65 @@ library(janitor)
 
 # Load the data
 
+Raw <- read_csv("/home/greig/R-projects/Long_name/Surname.csv") %>% 
+  clean_names()
+
+Col_names <- names(Raw)
+Col_names <- as.data.frame(Col_names)
+Raw_names <- mutate_at(Raw_names, vars(Col_names), str_to_title)
+names(Raw) <- Raw_names$Col_names
+
+Name_list <- Raw
+glimpse(Name_list)
+
+```
+
+```{r}
+# Count the data
+
+Count_letters <- nchar(Name_list$Patientsurname)
+
+glimpse(Count_letters)
+```
+
+```{r}
+Freq_count <- as.data.frame(table(Count_letters))
+
+glimpse(Freq_count)
+```
+
+```{r}
+ggplot(Freq_count, aes(Count_letters, Freq)) +
+  geom_col() +
+  geom_vline(xintercept = 20, color = "red", size = 2)
+```
+
+```{r}
+# Calculate percentage
+
+Max_char <- nrow(Freq_count)
+Denom <- nrow(Name_list)
+Key <- 21
+
+Num <- 0
+for (i in Key:Max_char) {
+    Num = Num + Freq_count$Freq[i]
+}
+Num
+
+Lost <- (Num/Denom)*100
+Lost
+
+Key2 <- Key - 10
+
+Num <- 0
+for (i in 1:Key2) {
+    Num = Num + Freq_count$Freq[i]
+}
+Num
+
+White <- (Num/Denom)*100
+White
+  
 ```
 
