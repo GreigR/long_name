@@ -1,5 +1,6 @@
 
 library(shiny)
+library(shinydashboard)
 library(tidyverse)
 library(glue)
 
@@ -24,7 +25,8 @@ ui <- fluidPage(
         # Show a plot of the generated distribution
         mainPanel(
            plotOutput("freq_plot"),
-           textOutput("results")
+           textOutput("results_1"),
+           textOutput("results_2")
         )
     )
 )
@@ -39,7 +41,7 @@ server <- function(input, output) {
 
     })
     
-    output$results <- renderText({
+    output$results_1 <- renderText({
         Max_char <- 27
         Denom <- 76874
         Key <- input$length
@@ -51,7 +53,11 @@ server <- function(input, output) {
         
         Lost <- round(((Num/Denom)*100), digits = 2)
         
-        Key2 <- Key - 10
+        glue('if {input$length} characters are allocated to the last name then {Lost} % of the labels will have missing letters in the last name but')
+    })
+    output$results_2 <- renderText({
+    
+        Key2 <- input$length - 10
         
         Num <- 0
         for (i in 1:Key2) {
@@ -60,7 +66,7 @@ server <- function(input, output) {
         
         White <- round(((Num/Denom)*100), digits = 2)
         
-        glue('With {input$length} characters for the last name, {Lost} % of the labels will have missing letters and {White}% of labels will have excessive white space')
+        glue('{White}% of labels will have more than 10 unused characters')
     })
 }
 
