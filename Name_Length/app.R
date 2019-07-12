@@ -1,6 +1,7 @@
 
 library(shiny)
 library(tidyverse)
+library(glue)
 
 Freq_table <- read_csv("/home/greig/R-projects/Long_name/Freq_table.csv")
 
@@ -22,7 +23,8 @@ ui <- fluidPage(
 
         # Show a plot of the generated distribution
         mainPanel(
-           plotOutput("freq_plot")
+           plotOutput("freq_plot"),
+           textOutput("results")
         )
     )
 )
@@ -34,6 +36,31 @@ server <- function(input, output) {
         ggplot(Freq_table, aes(Count_letters, Freq)) +
             geom_col() +
             geom_vline(xintercept = input$length, color = "red", size = 2)
+
+    })
+    
+    output$results <- renderText({
+        Max_char <- 27
+        Denom <- 76874
+        Key <- input$length
+        
+        Num <- 0
+        for (i in Key:Max_char) {
+            Num = Num + Freq_count$Freq[i]
+        }
+        
+        Lost <- round(((Num/Denom)*100), digits = 2)
+        
+        Key2 <- Key - 10
+        
+        Num <- 0
+        for (i in 1:Key2) {
+            Num = Num + Freq_count$Freq[i]
+        }
+        
+        White <- round(((Num/Denom)*100), digits = 2)
+        
+        glue('With {input$length} characters for the last name, {Lost} % of the labels will have missing letters and {White}% of labels will have excessive white space')
     })
 }
 
