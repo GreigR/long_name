@@ -25,7 +25,7 @@ Raw <- read_csv("/home/greig/R-projects/Long_name/Surname.csv") %>%
   clean_names()
 
 Col_names <- names(Raw)
-Col_names <- as.data.frame(Col_names)
+Raw_names <- as.data.frame(Col_names)
 Raw_names <- mutate_at(Raw_names, vars(Col_names), str_to_title)
 names(Raw) <- Raw_names$Col_names
 
